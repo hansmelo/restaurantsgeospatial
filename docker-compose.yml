@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  restaurantsgeospatial:
+    build: .
+    restart: always
+    container_name: restaurantsgeospatial
+    ports:
+      - 8080:8080
+    working_dir: /opt/app
+    depends_on:
+      - mongo
+      - mongo-seed
+    links:
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongo
+    depends_on:
+      - mongo
